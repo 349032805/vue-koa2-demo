@@ -29,6 +29,12 @@ const error404 = resolve => {
   }); 
 };
 
+const test = resolve => {
+  require.ensure(['../views/test.vue'], () => {
+      resolve(require('../views/test.vue'));
+  }); 
+};
+
 const router = new Router({
   mode: 'history',
   routes: [
@@ -49,6 +55,11 @@ const router = new Router({
       path: '/register',
       name: 'register',
       component: register 
+    },
+      {
+      path: '/test',
+      name: 'test',
+      component: test 
     },
     {
       path: '*',

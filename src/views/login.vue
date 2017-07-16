@@ -83,6 +83,10 @@ export default {
                                 let username = data.username;
                                 this.$store.dispatch('UserLogin', token);
                                 this.$store.dispatch('UserName', username);
+
+                                //localStorage,sessionStorage保存token
+                                // sessionStorage.setItem('token', token);
+
                                 //如果用户手动输入"/"那么会跳转到这里来，即this.$route.query.redirect有参数
                                 let redirectUrl = decodeURIComponent(this.$route.query.redirect || '/');
                                 //跳转到指定的路由
