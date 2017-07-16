@@ -36,7 +36,7 @@ const test = resolve => {
 };
 
 const router = new Router({
-  mode: 'history',
+  mode: 'history', // 开启HTML5的history模式，可以让地址栏的url长得跟正常页面跳转的url一样
   routes: [
     {
       path: '/',
