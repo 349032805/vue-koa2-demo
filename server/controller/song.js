@@ -1,11 +1,4 @@
-const User = require('../models/user.js').User;
-//下面这两个包用来生成时间
-const moment = require('moment');
-const objectIdToTimestamp = require('objectid-to-timestamp');
-//用于密码加密
-const sha1 = require('sha1');
-//createToken
-const createToken = require('../token/createToken.js');
+const User = require('../db.js').User;
 
 //数据库的操作
 //根据用户名查找用户
