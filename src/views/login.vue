@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import api from '../axios.js'
+import api from '../api/auth.js'
 //引入验证组件
 import Register from './register.vue'
 
