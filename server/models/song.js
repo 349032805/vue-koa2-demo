@@ -4,8 +4,8 @@ const mongoose = require('../db.js');
 const songSchema = mongoose.Schema({
     song_name: String,
     singer: String,
-    create_at: String,
-    update_at: String
+    create_at: Number,
+    update_at: Number
 });
 //根据schema生成model
 const model = {

@@ -126,6 +126,7 @@
 			}
 
 			this.song.create_at = new Date().getTime();
+			this.song.update_at = new Date().getTime();
 			console.log("表单的song")
 			console.log(this.song)
 			console.log("表单的song")
@@ -135,18 +136,11 @@
 						type: 'success',
 						message: '保存成功'
 					});
+					this.showModal = false;
+					this._getSongs();
 				}
 			});
 
-			// api.saveSong(this.song).then(response => {
-			// 	console.log(response);
-			// 	this.$message({
-			// 		type: 'success',
-			// 		message: '保存成功'
-			// 	});
-			// 	}).catch((err) => {
-			// 	console.log(err);
-			// })
           },
           _sureEdit(){
           	 if(this.song_name == ""){
