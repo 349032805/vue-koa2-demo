@@ -35,13 +35,27 @@ const test = resolve => {
   }); 
 };
 
+const list = resolve => {
+  require.ensure(['../views/list.vue'], () => {
+      resolve(require('../views/list.vue'));
+  }); 
+};
+
 const router = new Router({
   mode: 'history', // 开启HTML5的history模式，可以让地址栏的url长得跟正常页面跳转的url一样
   routes: [
     {
-      path: '/',
+      path: '/hello',
       name: 'hello',
       component: hello,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/',
+      name: 'list',
+      component: list,
       meta: {
         requiresAuth: true
       }

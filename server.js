@@ -6,6 +6,7 @@ const router = new Router();
 
 //引入子路由
 const loginRouter = require('./server/routes/user.js');
+const songRouter = require('./server/routes/song.js');
 
 
 //------------------------------------middleware---------------------------------
@@ -14,6 +15,7 @@ app.use(bodyParser());
 
 //装载子路由
 router.use('/api', loginRouter.routes(), loginRouter.allowedMethods());
+router.use('/api', songRouter.routes(), songRouter.allowedMethods());
 
 //加载路由中间件
 app.use(router.routes()).use(router.allowedMethods());

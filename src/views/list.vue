@@ -37,7 +37,7 @@
 			<div class="form-group">
 			    <label class="col-xs-3 col-md-3 control-label">歌曲名:</label>
 			    <div class="col-xs-7 col-md-7">
-			      <input class="form-control" type="text" placeholder="歌曲名" maxlength="20" v-model="song_name">
+			      <input class="form-control" type="text" placeholder="歌曲名" maxlength="20" v-model="song.song_name">
 			    </div>
 			    <span class="col-xs-1 col-md-1 require">*</span>
 			</div>
@@ -45,7 +45,7 @@
 			<div class="form-group">
 			    <label class="col-xs-3 col-md-3 control-label">歌手:</label>
 			    <div class="col-xs-7 col-md-7">
-			      <input class="form-control" type="text" placeholder="歌手" maxlength="4" v-model="singer">
+			      <input class="form-control" type="text" placeholder="歌手" maxlength="4" v-model="song.singer">
 			    </div>
 			</div>
 	  	</form>
@@ -60,7 +60,8 @@
 </template>
 
 <script type="text/ecmascript-6">
-     import {formatDate} from '../../utils/date.js';
+	 import {formatDate} from '../utils/date.js';
+	 import api from '../api/song.js';
      export default {
       data() {
           return {
@@ -69,7 +70,8 @@
           	song_name: "",
           	singer: "",
           	songs: [],
-          	showModal: false
+			showModal: false,
+			song:{}
           }
         },
       created() {
@@ -87,11 +89,11 @@
       		this.singer = "";
       	},
       	sureAddOrEdit(){
-    			if(this.mode == 0){
-    				this._sureAdd();
-    			}else{
-    				this._sureEdit();
-    			}
+			if(this.mode == 0){
+				this._sureAdd();
+			}else{
+				this._sureEdit();
+			}
       	},
           showDetail(song){
           	let songId = song._id;
@@ -106,45 +108,32 @@
           },
           deleteSong(song){
           	let id = song._id;
-	      this.$http.delete(`/api/deleteSong/${id}`)
-	        .then(res => {
-	          console.log(res.data)
-	          this._getSongs();
-	        }).catch(e => console.log(e))
+	    //   this.$http.delete(`/api/deleteSong/${id}`)
+	    //     .then(res => {
+	    //       console.log(res.data)
+	    //       this._getSongs();
+	    //     }).catch(e => console.log(e))
           },
           _getSongs(){
-          	console.log("获取歌曲列表");
-          	this.$http.get('/api/songList')
-	        .then(res => {
-	          console.dir(res.data)
-	          this.songs = res.data
-	        })
-	        .catch(err => {
-	          console.log(err)
-	        })
+			api.getAllSongs().then((response) => {
+				this.songs = response.data.result;
+			});
           },
           _sureAdd(){
-          	 if(this.song_name == ""){
+          	if(this.song.song_name == ""){
           	 	alert("请输入歌名!");
           	 	return;
-          	 }
-          	  this.$http.post('/api/addSong', {
-	          song_name: this.song_name,
-	          singer: this.singer,
-	          create_at: new Date().getTime(),
-	          update_at: new Date().getTime()
-	        })
-	        .then(res => {
-	          console.log('添加歌曲成功');
-	          this.song_name  = "";
-	          this.singer = "";
-	          this.showModal = false;
-	          this._getSongs();
-	        })
-	        .catch(e => {
-	          console.log('保存失败');
-	          console.log(e)
-	        })
+			}
+
+			this.song.create_at = new Date().getTime();
+			api.saveSong(this.song).then(({ data }) => { 
+				if(data.success){
+					this.$message({
+						type: 'success',
+						message: '保存成功'
+					});
+				}
+			});
           },
           _sureEdit(){
           	 if(this.song_name == ""){
@@ -152,19 +141,19 @@
           	 	return;
           	 }
           	let id = this.songId;
-          	this.$http.put(`/api/updateSong/${id}`, {
-	          song_name: this.song_name,
-	          singer: this.singer,
-	          update_at: new Date().getTime()
-	        })
-	        .then(res => {
-    		    console.log('修改歌曲成功');
-                this.song_name  = "";
-	          this.singer = "";
-	          this.showModal = false;
-	          this._getSongs();
-	        })
-	        .catch(err => console.log(err))
+          	// this.$http.put(`/api/updateSong/${id}`, {
+	        //   song_name: this.song_name,
+	        //   singer: this.singer,
+	        //   update_at: new Date().getTime()
+	        // })
+	        // .then(res => {
+    		//     console.log('修改歌曲成功');
+            //     this.song_name  = "";
+	        //   this.singer = "";
+	        //   this.showModal = false;
+	        //   this._getSongs();
+	        // })
+	        // .catch(err => console.log(err))
           }
       },
       filters: {
