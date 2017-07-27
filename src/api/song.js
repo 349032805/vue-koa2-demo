@@ -17,6 +17,9 @@ export default {
     //删除歌曲
     deleteSong(data){
         return instance.post('/api/deleteSong', data);
+    },
+    //修改歌曲
+    updateSong(data){
+        return instance.post('/api/updateSong', data);
     }
-
 }

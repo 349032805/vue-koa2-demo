@@ -33,7 +33,7 @@ const getAllSongs = async( ctx ) => {
     });
     ctx.status = 200;
     ctx.body = {
-        message: '成功',
+        message: '查询所有歌曲成功',
         result: doc
     };
 };
@@ -52,7 +52,7 @@ const getSongDetail = async( ctx ) => {
     });
     ctx.status = 200;
     ctx.body = {
-        message: '成功',
+        message: '查询歌曲详情成功',
         result: doc
     };
 };
@@ -75,10 +75,36 @@ const deleteSong = async( ctx ) => {
     };
 };
 
+const updateSong = async( ctx ) => {
+    console.log("修改歌曲");
+    let song = ctx.request.body;
+    let id = song._id;
+    console.log(id);
+    await new Promise((resolve, reject) => {
+        Song.findOneAndUpdate({ _id : id},
+            { $set : { 
+                song_name: song.song_name,
+                singer : song.singer,
+                update_at: song.update_at}
+            },{new : true},(err,doc)=>{
+                if(err){
+                    reject(err);
+                }
+                resolve(doc);
+         })
+    });
+    ctx.status = 200;
+    ctx.body = {
+        message: '修改成功',
+        success: true
+    };
+};
+
 
 module.exports = {
     getAllSongs,
     saveSong,
     getSongDetail,
-    deleteSong
+    deleteSong,
+    updateSong
 };

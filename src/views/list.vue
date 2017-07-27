@@ -37,7 +37,7 @@
 			<div class="form-group">
 			    <label class="col-xs-3 col-md-3 control-label">歌曲名:</label>
 			    <div class="col-xs-7 col-md-7">
-			      <input class="form-control" type="text" placeholder="歌曲名" maxlength="20" v-model="song.song_name">
+			      <input class="form-control" type="text" placeholder="歌曲名" maxlength="20" v-model="song_name">
 			    </div>
 			    <span class="col-xs-1 col-md-1 require">*</span>
 			</div>
@@ -45,7 +45,7 @@
 			<div class="form-group">
 			    <label class="col-xs-3 col-md-3 control-label">歌手:</label>
 			    <div class="col-xs-7 col-md-7">
-			      <input class="form-control" type="text" placeholder="歌手" maxlength="4" v-model="song.singer">
+			      <input class="form-control" type="text" placeholder="歌手" maxlength="4" v-model="singer">
 			    </div>
 			</div>
 	  	</form>
@@ -103,7 +103,7 @@
           edit(song){
           	this.showModal = true;
           	this.mode = 1;
-          	this.songId = song._id;
+			this.songId = song._id;
           	this.song_name = song.song_name;
           	this.singer = song.singer;
           },
@@ -128,22 +128,27 @@
 			});
           },
           _sureAdd(){
-          	if(this.song.song_name == ""){
+          	if(this.song_name == ""){
           	 	alert("请输入歌名!");
           	 	return;
 			}
+			let song = {};
+			song.song_name = this.song_name;
+			song.singer = this.singer;
+			song.create_at = new Date().getTime();
+			song.update_at = new Date().getTime();
 
-			this.song.create_at = new Date().getTime();
-			this.song.update_at = new Date().getTime();
 			console.log("表单的song")
-			console.log(this.song)
+			console.log(song)
 			console.log("表单的song")
-			api.saveSong(this.song).then(({ data }) => { 
+			api.saveSong(song).then(({ data }) => { 
 				if(data.success){
 					this.$message({
 						type: 'success',
 						message: '保存成功'
 					});
+					this.song_name  = "";
+	          		this.singer = "";
 					this.showModal = false;
 					this._getSongs();
 				}
@@ -151,24 +156,30 @@
 
           },
           _sureEdit(){
-          	 if(this.song_name == ""){
+          	if(this.song_name == ""){
           	 	alert("请输入歌名!");
           	 	return;
-          	 }
-          	let id = this.songId;
-          	// this.$http.put(`/api/updateSong/${id}`, {
-	        //   song_name: this.song_name,
-	        //   singer: this.singer,
-	        //   update_at: new Date().getTime()
-	        // })
-	        // .then(res => {
-    		//     console.log('修改歌曲成功');
-            //     this.song_name  = "";
-	        //   this.singer = "";
-	        //   this.showModal = false;
-	        //   this._getSongs();
-	        // })
-	        // .catch(err => console.log(err))
+			}
+
+			let song = {};
+			song._id = this.songId;
+			song.song_name = this.song_name;
+			song.singer = this.singer;
+			song.update_at = new Date().getTime();
+			   
+			api.updateSong(song).then(({ data }) => { 
+				if(data.success){
+					this.$message({
+						type: 'success',
+						message: '修改成功'
+					});
+					this.song_name  = "";
+	          		this.singer = "";
+					this.showModal = false;
+					this._getSongs();
+				}
+			});
+
           }
       },
       filters: {
