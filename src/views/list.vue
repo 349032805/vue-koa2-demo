@@ -96,7 +96,8 @@
 			}
       	},
           showDetail(song){
-          	let songId = song._id;
+			let songId = song._id;
+			console.log("前端songId:"+songId);
           	this.$router.push({name:'detail',params:{songId:songId}});
           },
           edit(song){

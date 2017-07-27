@@ -7,6 +7,7 @@
 </template>
 
 <script>
+    import api from '../api/song.js';
      export default {
       data() {
           return {
@@ -20,15 +21,18 @@
        methods:{
            _getSong(){
             console.log("获取歌曲详细");
-            let id = this.$route.params.songId;
-            this.$http.get(`/api/song/${id}`)
-            .then(res => {
-              console.dir(res.data)
-              this.song = res.data
+            console.log("详细页面的songId:"+this.$route.params.songId)
+            // let id = this.$route.params.songId;
+            let detail = {
+              id:this.$route.params.songId
+            };
+            api.getSongDetail(detail).then(response => {
+                console.log(response);
+                this.song = response.data.result;
+              }).catch((err) => {
+                console.log(err);
             })
-            .catch(err => {
-              console.log(err)
-            })
+
           }
        }
     };

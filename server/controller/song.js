@@ -38,8 +38,28 @@ const getAllSongs = async( ctx ) => {
     };
 };
 
+const getSongDetail = async( ctx ) => {
+    console.log("查询歌曲详情");
+    let id = ctx.request.body.id;
+    console.log(id);
+    let doc = await new Promise((resolve, reject) => {
+        Song.findOne({_id: id}, (err, doc) => {
+            if(err){
+                reject(err);
+            }
+            resolve(doc);
+        });
+    });
+    ctx.status = 200;
+    ctx.body = {
+        message: '成功',
+        result: doc
+    };
+};
+
 
 module.exports = {
     getAllSongs,
-    saveSong
+    saveSong,
+    getSongDetail
 };

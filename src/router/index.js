@@ -41,6 +41,12 @@ const list = resolve => {
   }); 
 };
 
+const detail = resolve => {
+  require.ensure(['../views/detail.vue'], () => {
+      resolve(require('../views/detail.vue'));
+  }); 
+};
+
 const router = new Router({
   mode: 'history', // 开启HTML5的history模式，可以让地址栏的url长得跟正常页面跳转的url一样
   routes: [
@@ -56,9 +62,14 @@ const router = new Router({
       path: '/',
       name: 'list',
       component: list,
-      meta: {
-        requiresAuth: true
-      }
+      // meta: {
+      //   requiresAuth: true
+      // }
+    },
+    {
+      path: '/detail/:songId',
+      name: 'detail',
+      component: detail
     },
     {
       path: '/login',
