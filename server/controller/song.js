@@ -57,9 +57,28 @@ const getSongDetail = async( ctx ) => {
     };
 };
 
+const deleteSong = async( ctx ) => {
+    console.log("删除歌曲");
+    let id = ctx.request.body.id;
+    console.log(id);
+    await new Promise((resolve, reject) => {
+        Song.findOneAndRemove({_id: id}, (err, doc) => {
+            if(err){
+                reject(err);
+            }
+            resolve(doc);
+        });
+    });
+    ctx.status = 200;
+    ctx.body = {
+        message: '删除成功'
+    };
+};
+
 
 module.exports = {
     getAllSongs,
     saveSong,
-    getSongDetail
+    getSongDetail,
+    deleteSong
 };

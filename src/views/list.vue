@@ -108,12 +108,19 @@
           	this.singer = song.singer;
           },
           deleteSong(song){
-          	let id = song._id;
-	    //   this.$http.delete(`/api/deleteSong/${id}`)
-	    //     .then(res => {
-	    //       console.log(res.data)
-	    //       this._getSongs();
-	    //     }).catch(e => console.log(e))
+          	// let id = song._id;
+	      	let opt = {
+              id:song._id
+            };
+            api.deleteSong(opt).then(response => {
+				this.$message({
+					type: 'success',
+					message: '删除成功'
+				});
+                this._getSongs();
+              }).catch((err) => {
+                console.log(err);
+            })
           },
           _getSongs(){
 			api.getAllSongs().then((response) => {

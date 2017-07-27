@@ -10,5 +10,6 @@ const checkToken = require('../token/checkToken.js');
 childRouter.get('/getAllSongs', checkToken, SongController.getAllSongs);
 childRouter.post('/saveSong', checkToken, SongController.saveSong);
 childRouter.post('/getSongDetail', checkToken, SongController.getSongDetail);
+childRouter.post('/deleteSong', checkToken, SongController.deleteSong);
 
 module.exports = childRouter;

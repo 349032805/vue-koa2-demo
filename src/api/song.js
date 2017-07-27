@@ -13,6 +13,10 @@ export default {
     //获取歌曲详细
     getSongDetail(data){
         return instance.post('/api/getSongDetail', data);
+    },
+    //删除歌曲
+    deleteSong(data){
+        return instance.post('/api/deleteSong', data);
     }
 
 }
