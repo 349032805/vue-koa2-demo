@@ -8,6 +8,6 @@ const checkToken = require('../token/checkToken.js');
 
 //需要先检查权限的路由
 childRouter.get('/getAllSongs', checkToken, SongController.getAllSongs);
-childRouter.get('/saveSong', checkToken, SongController.saveSong);
+childRouter.post('/saveSong', checkToken, SongController.saveSong);
 
 module.exports = childRouter;
